@@ -22,7 +22,6 @@ def encode_key_mapping(key_mapping):
         hyper=bool(mods & 16),
         meta=bool(mods & 32),
     ).as_window_system_event()
-
     return encode_key_for_tty(
         event.key, event.shifted_key, event.alternate_key, event.mods, event.action
     )
@@ -43,6 +42,6 @@ def handle_result(args, result, target_window_id, boss):
         return
     if is_window_vim(window, vim_id):
         encoded = encode_key_mapping(key_mapping)
-        window.write_to_child(encoded)
+        window.write_to_child(encoded.encode())
     else:
         boss.active_tab.neighboring_window(direction)
